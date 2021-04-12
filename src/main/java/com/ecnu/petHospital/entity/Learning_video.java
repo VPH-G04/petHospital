@@ -13,9 +13,9 @@ import javax.persistence.Table;
 @Table(name="learning_video")
 public class Learning_video {
     @Id
-    private int id;
+    private Integer id;
 
-    private int resourceId;
+    private Integer resourceId;
 
     private String url;
 

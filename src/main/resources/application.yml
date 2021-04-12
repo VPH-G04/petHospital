@@ -7,6 +7,18 @@ spring:
     url: jdbc:mysql://47.117.135.149:3306/hospital?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: rootroot
+  # email config
+  #邮箱配置 开启smtp服务    password为授权码
+  mail:
+    host: smtp.qq.com
+    username: jason72411@qq.com
+    password: tbrvsoqtasnbbeid
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+    default-encoding: UTF-8
 
 swagger:
   enabled: true

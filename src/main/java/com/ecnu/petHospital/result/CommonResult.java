@@ -1,5 +1,8 @@
 package com.ecnu.petHospital.result;
 
+import com.ecnu.petHospital.enums.CustomExceptionType;
+import com.ecnu.petHospital.exception.CustomException;
+
 public class CommonResult {
     public static final int SUCCESS = 200;
 
@@ -23,5 +26,16 @@ public class CommonResult {
 
     public static <T> Result<T> accessDenied() {
         return new Result<>(ACCESS_DENIED, "没有权限访问");
+    }
+
+    public static <T> Result<T> error(CustomExceptionType customExceptionType,
+                                      String errorMessage){
+        return new Result<>(customExceptionType.getCode(),errorMessage);
+
+    }
+
+    public static <T> Result<T> error(CustomException customException){
+        return new Result<>(customException.getCode(),customException.getMessage());
+
     }
 }

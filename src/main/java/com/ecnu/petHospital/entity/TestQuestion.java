@@ -13,12 +13,12 @@ import javax.persistence.Table;
 @Table(name="test_question")
 public class TestQuestion {
     @Id
-    private int id;
+    private Integer id;
 
-    private int paperId;
+    private Integer paperId;
 
-    private int questionId;
+    private Integer questionId;
 
-    private int questionNumber;
+    private Integer questionNumber;
 
 }

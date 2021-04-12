@@ -16,5 +16,7 @@ public class UserSessionInfo {
 
     private String username;
 
+    private String email;
+
     private Boolean admin;
 }

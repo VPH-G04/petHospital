@@ -13,9 +13,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class Test {
     @Id
-    private int id;
+    private Integer id;
 
-    private int paperId;
+    private Integer paperId;
 
     private String name;
 

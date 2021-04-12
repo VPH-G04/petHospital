@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Role {
     @Id
-    private int id;
+    private Integer id;
 
     private String name;
 }

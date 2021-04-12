@@ -1,6 +1,8 @@
-package com.ecnu.petHospital.service;
+package com.ecnu.petHospital.service.impl;
 
 import com.ecnu.petHospital.entity.User;
+import com.ecnu.petHospital.enums.CustomExceptionType;
+import com.ecnu.petHospital.exception.CustomException;
 import com.ecnu.petHospital.paging.PageParam;
 import com.ecnu.petHospital.dao.UserMapper;
 import com.ecnu.petHospital.exception.IncorrectUsernameOrPasswordException;
@@ -8,30 +10,33 @@ import com.ecnu.petHospital.exception.UsernameAlreadyExistException;
 import com.ecnu.petHospital.exception.UsernameNotExistsException;
 import com.ecnu.petHospital.param.LoginParam;
 import com.ecnu.petHospital.param.RegisterParam;
+import com.ecnu.petHospital.service.UserService;
 import com.ecnu.petHospital.session.UserSessionInfo;
 import com.ecnu.petHospital.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class    UserServiceImp implements UserService {
 
-    @Autowired
+    @Resource
     UserMapper userMapper;
 
     @Override
     public User login(LoginParam loginParam) {
-        String username = loginParam.getUsername();
-        String password = loginParam.getPassword();
-        User user = userMapper.getUserByUsername(username);
-        if(user == null)
-            throw new UsernameNotExistsException();
-        if(!password.equals(user.getPassword()))
-            throw new IncorrectUsernameOrPasswordException();
-        return user;
+        User user1 = userMapper.selectOne(new User().setEmail(loginParam.getEmail()).setPassword(loginParam.getPassword()));
+        Optional.ofNullable(user1).orElseThrow(()->new CustomException(CustomExceptionType.INCORRECT_EMAIL_OR_PASSWORD));
+
+//        if(user == null)
+//            throw new UsernameNotExistsException();
+//        if(!password.equals(user.getPassword()))
+//            throw new IncorrectUsernameOrPasswordException();
+        return user1;
     }
 
     @Override
@@ -49,23 +54,19 @@ public class    UserServiceImp implements UserService {
 
     @Override
     public int register(RegisterParam registerParam) {
+
         String username = registerParam.getUsername();
         String password = registerParam.getPassword();
         String email = registerParam.getEmail();
         System.out.println(email);
 
-        if(userMapper.getUserByUsername(username) != null)
-            throw new UsernameAlreadyExistException();
+        User user =new User().setEmail(email).setPassword(password).setUsername(username).setAdmin(false);
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setAdmin(false);
+        User user1 = userMapper.selectOne(new User().setEmail(email));
+        System.out.println(user1);
+        Optional.ofNullable(user1).ifPresent(u->{throw new CustomException(CustomExceptionType.EMAIL_ALREADY_EXISTS);});
 
-
-        System.out.println(user);
-        return userMapper.insertUser(user);
+        return userMapper.insert(user);
 //        return 1;
     }
 

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="test_paper")
 public class TestPaper {
     @Id
-    private int id;
+    private Integer id;
 
     private String name;
 

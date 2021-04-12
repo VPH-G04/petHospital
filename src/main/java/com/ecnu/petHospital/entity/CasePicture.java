@@ -11,11 +11,11 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class CasePicture {
     @Id
-    private int id;
+    private Integer id;
 
     private String url;
 
-    private int caseId;
+    private Integer caseId;
 
     private String describe;
 

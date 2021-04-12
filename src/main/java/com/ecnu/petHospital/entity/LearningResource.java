@@ -13,9 +13,9 @@ import javax.persistence.Table;
 @Table(name="learning_resource")
 public class LearningResource {
     @Id
-    private int id;
+    private Integer id;
 
-    private int roleId;
+    private Integer roleId;
 
     private String title;
 

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -12,15 +14,16 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class RegisterParam {
 
-    @NotNull
-    @Length(min = 1, max = 20)
+    @NotBlank(message = "用户名不能为空")
+    @Length(min = 2, max = 20)
     private String username;
 
-    @NotNull
-    @Length(min = 8, max = 20)
+    @NotBlank(message = "密码不能为空")
+    @Length(min = 6, max = 20)
     private String password;
 
-    @NotNull
+    @NotBlank(message = "邮箱不能为空")
+    @Email(message = "邮箱格式错误")
     private String email;
 
 }

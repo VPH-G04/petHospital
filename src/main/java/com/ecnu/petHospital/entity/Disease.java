@@ -11,9 +11,9 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Disease {
     @Id
-    private int id;
+    private Integer id;
 
     private String name;
 
-    private int classId;
+    private Integer classId;
 }

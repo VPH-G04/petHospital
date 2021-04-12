@@ -14,13 +14,13 @@ import java.sql.Timestamp;
 @Table(name="test_log")
 public class TestLog {
     @Id
-    private int id;
+    private Integer id;
 
-    private int testId;
+    private Integer testId;
 
-    private int userId;
+    private Integer userId;
 
-    private int score;
+    private Integer score;
 
     private Timestamp submitTime;
 }

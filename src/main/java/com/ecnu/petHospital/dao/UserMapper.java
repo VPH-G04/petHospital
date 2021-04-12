@@ -1,5 +1,6 @@
 package com.ecnu.petHospital.dao;
 
+import com.ecnu.petHospital.MyMapper;
 import com.ecnu.petHospital.entity.User;
 import com.ecnu.petHospital.paging.PageParam;
 import com.ecnu.petHospital.vo.UserVO;
@@ -8,7 +9,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends MyMapper<User> {
 
     //根据用户名获取用户
     @Select("SELECT * FROM user WHERE username=#{username};")

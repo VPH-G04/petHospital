@@ -11,11 +11,11 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Case {
     @Id
-    private int id;
+    private Integer id;
 
     private String name;
 
-    private int diseaseId;
+    private Integer diseaseId;
 
     private String consultation;
 
