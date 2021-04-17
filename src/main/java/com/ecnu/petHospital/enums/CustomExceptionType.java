@@ -15,6 +15,8 @@ public enum CustomExceptionType {
     SYSTEM_ERROR (500,"系统出现异常，请您稍后再试或联系管理员！"),
     OTHER_ERROR(999,"系统出现未知异常，请联系管理员！");
 
+
+
     CustomExceptionType(int code, String desc) {
         this.code = code;
         this.desc = desc;

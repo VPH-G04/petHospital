@@ -19,6 +19,22 @@ spring:
           ssl:
             enable: true
     default-encoding: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1000MB
 
 swagger:
   enabled: true
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case=true:
+  mapper-locations: classpath:mapper/*.xml
+
+
+#用户上传文件存储路径
+file:
+  # file-save-path: E:/upload/images/
+  file-save-path: /Users/lionel_xyl/Downloads/upload/

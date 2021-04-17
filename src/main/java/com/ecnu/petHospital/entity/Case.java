@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "`case`")
 public class Case {
     @Id
     @GeneratedValue(generator = "JDBC")
@@ -17,7 +19,7 @@ public class Case {
 
     private String name;
 
-    private Integer diseaseId;
+    private Integer disease_id;
 
     private String consultation;
 

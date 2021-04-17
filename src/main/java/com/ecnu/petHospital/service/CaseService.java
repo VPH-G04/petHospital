@@ -2,20 +2,24 @@ package com.ecnu.petHospital.service;
 
 
 import com.ecnu.petHospital.entity.Case;
+import com.ecnu.petHospital.param.CaseListParam;
+import com.ecnu.petHospital.param.CaseParam;
+import com.ecnu.petHospital.vo.CaseVO;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
 public interface CaseService {
 
-     void createCase(Case newcase);
+     CaseVO createCase(Case newcase, CaseParam caseParam);
 
-     void updateCase(Case newcase);
+     Integer updateCase(Case newcase);
 
-     void deleteCase(Integer id);
+     Integer deleteCase(Integer id);
 
-     Case getCaseById(Integer id);
+     CaseVO getCaseById(Integer id);
 
-     List<Case> getCasesByDiseaseId(Integer disId);
+     List<CaseListParam> getCasesByDiseaseId(Integer disId);
 
      List<Case> getCases();
 
