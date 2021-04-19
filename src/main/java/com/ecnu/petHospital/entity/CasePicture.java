@@ -4,18 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "case_picture")
 public class CasePicture {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String url;
 
-    private Integer caseId;
+    private Integer case_id;
 
     private String describe;
 

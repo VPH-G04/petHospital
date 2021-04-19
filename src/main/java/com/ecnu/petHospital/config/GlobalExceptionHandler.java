@@ -40,15 +40,15 @@ public class GlobalExceptionHandler {
 
     }
 
-    //处理程序员在程序中未能捕获（遗漏的）异常
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public Result<?> exception(Exception e) {
-        //TODO 将异常信息持久化处理，方便运维人员处理
-
-        return CommonResult.error(new CustomException(
-                CustomExceptionType.OTHER_ERROR));
-    }
+//    //处理程序员在程序中未能捕获（遗漏的）异常
+//    @ExceptionHandler(Exception.class)
+//    @ResponseBody
+//    public Result<?> exception(Exception e) {
+//        //TODO 将异常信息持久化处理，方便运维人员处理
+//
+//        return CommonResult.error(new CustomException(
+//                CustomExceptionType.OTHER_ERROR));
+//    }
 
 
 }
