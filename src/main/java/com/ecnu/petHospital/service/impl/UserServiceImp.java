@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -42,6 +43,25 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
+    public Boolean updateInfo(UserVO userVO) {
+        User user = userMapper.selectByPrimaryKey(userVO.getId());
+        Optional.ofNullable(user).orElseThrow(()->new CustomException(CustomExceptionType.USER_NOT_EXISTS));
+        System.out.println(user);
+        System.out.println(userVO);
+
+        User emailUser=userMapper.selectOne(new User().setEmail(userVO.getEmail()));
+        System.out.println(emailUser);
+        if(emailUser!=user)
+            throw new CustomException(CustomExceptionType.EMAIL_ALREADY_EXISTS);
+
+        user.setEmail(userVO.getEmail()).setUsername(userVO.getUsername());
+        userMapper.updateByPrimaryKeySelective(user);
+        return true;
+
+    }
+
+    @Override
     public UserVO getUserByUsername(String username) {
         User user = userMapper.getUserByUsername(username);
         UserVO userVO = new UserVO();
@@ -55,6 +75,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public int register(RegisterParam registerParam) {
 
         String username = registerParam.getUsername();
@@ -72,52 +93,50 @@ public class UserServiceImp implements UserService {
 //        return 1;
     }
 
-
     @Override
+    @Transactional
     public int updatePassword(UserSessionInfo userSessionInfo, String oldPassword, String newPassword) {
-        User user = userMapper.getUserByUsername(userSessionInfo.getUsername());
+        User user = userMapper.selectByPrimaryKey(userSessionInfo.getId());
         //System.out.println(oldPassword+"   "+user.getPassword());
         if(!oldPassword.equals(user.getPassword()))
-            throw new IncorrectUsernameOrPasswordException();
+            throw new CustomException(CustomExceptionType.INCORRECT_EMAIL_OR_PASSWORD,"密码错误");
         return userMapper.updatePasswordById(userSessionInfo.getId(),newPassword);
-    }
-
-    @Override
-    public int updateUsername(Integer id, String username) {
-        if(userMapper.getUserByUsername(username)!=null)
-            throw  new UsernameAlreadyExistException();
-        return userMapper.updateUsernameById(id,username);
-    }
-
-    @Override
-    public int updateTelephone(Integer id, String telephone) {
-        return userMapper.updateTelephoneById(id,telephone);
-    }
-
-    @Override
-    public int updateEmail(Integer id, String email) {
-        return userMapper.updateEmailById(id,email);
-    }
-
-    @Override
-    public int updatePermission(Integer id, Integer admin) {
-        return userMapper.updatePermission(id,admin);
     }
 
     @Override
     public PageInfo<User> getUserList(PageParam pageParam) {
         PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize());
 
-        List<User> userList = userMapper.getUserList();
+        List<User> userList = userMapper.selectAll();
         return new PageInfo<>(userList);
     }
 
     @Override
+    @Transactional
     public int deleteUserById(Integer id) {
-        return userMapper.deleteUserById(id);
+        User user = userMapper.selectByPrimaryKey(id);
+        if(user.getAdmin())
+            throw new CustomException(CustomExceptionType.ACCESSED_DENIED,"无法删除其他管理员账号");
+        return userMapper.deleteByPrimaryKey(id);
     }
 
     @Override
-    public int getCountOfUser(){return userMapper.getCountOfUser();}
+    @Transactional
+    public Boolean adminUpdateInfo(User user) {
+        User user1 = userMapper.selectByPrimaryKey(user.getId());
+        Optional.ofNullable(user1).orElseThrow(()->new CustomException(CustomExceptionType.USER_NOT_EXISTS));
+        System.out.println("user:"+user);
+        System.out.println("user1:"+user1);
 
+
+        User emailUser=userMapper.selectOne(new User().setEmail(user.getEmail()));
+        System.out.println("emailUser:"+emailUser);
+        if(!emailUser.getId().equals(user1.getId()))
+            throw new CustomException(CustomExceptionType.EMAIL_ALREADY_EXISTS);
+
+        user1.setEmail(user.getEmail()).setUsername(user.getUsername()).setPassword(user.getPassword());
+        userMapper.updateByPrimaryKeySelective(user);
+        return true;
+
+    }
 }
