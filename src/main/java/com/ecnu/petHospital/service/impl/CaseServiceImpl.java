@@ -8,8 +8,7 @@ import com.ecnu.petHospital.entity.CasePicture;
 import com.ecnu.petHospital.entity.CaseVideo;
 import com.ecnu.petHospital.enums.FileType;
 import com.ecnu.petHospital.enums.ProcedureType;
-import com.ecnu.petHospital.param.CaseListParam;
-import com.ecnu.petHospital.param.CaseParam;
+import com.ecnu.petHospital.param.*;
 import com.ecnu.petHospital.service.CaseService;
 import com.ecnu.petHospital.vo.CaseVO;
 import com.ecnu.petHospital.vo.ProcedureVO;
@@ -17,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,99 +38,122 @@ public class CaseServiceImpl implements CaseService {
         Integer id = newcase.getId();
         System.out.println(id);
 
-        List<String> cImage = caseParam.getCImage();
-        if(cImage!=null)
-            insertPicorVid(cImage, id, ProcedureType.consultation, FileType.Image);
-        List<String> dImage = caseParam.getDImage();
-        if(dImage!=null)
-            insertPicorVid(dImage, id, ProcedureType.diagnosis, FileType.Image);
-        List<String> eImage = caseParam.getEImage();
-        if(eImage!=null)
-            insertPicorVid(eImage, id, ProcedureType.examination, FileType.Image);
-        List<String> tImage = caseParam.getTImage();
-        if(tImage!=null)
-            insertPicorVid(tImage, id, ProcedureType.treatment, FileType.Image);
+        List<String> image = caseParam.getImage();
+        if (image != null)
+            insertPicOrVid(image, id, caseParam.getImageProcedure(), caseParam.getImageDescription(), FileType.Image);
 
-        List<String> cVideo = caseParam.getCVideo();
-        if(cVideo!=null)
-            insertPicorVid(cVideo, id, ProcedureType.consultation, FileType.Video);
-        List<String> dVideo = caseParam.getDVideo();
-        if(dVideo!=null)
-            insertPicorVid(dVideo, id, ProcedureType.diagnosis, FileType.Video);
-        List<String> eVideo = caseParam.getEVideo();
-        if(eVideo!=null)
-            insertPicorVid(eVideo, id, ProcedureType.examination, FileType.Video);
-        List<String> tVideo = caseParam.getTVideo();
-        if(tVideo!=null)
-            insertPicorVid(tVideo, id, ProcedureType.treatment, FileType.Video);
+        List<String> video = caseParam.getVideo();
+        if (video != null)
+            insertPicOrVid(video, id, caseParam.getVideoProcedure(), caseParam.getVideoDescription(), FileType.Video);
 
-        return getCaseVO(newcase,caseParam);
+        return getCaseVO(newcase, caseParam);
 
     }
 
-    private void insertPicorVid(List<String> tmp, Integer id, String procedure, String type){
-        for(int i=0; i<tmp.size(); i++){
-            if(type.equals(FileType.Image)){
-                CasePicture cp = new CasePicture();
-                cp.setCase_id(id);
-                cp.setProcedure(procedure);
-                cp.setUrl(tmp.get(i));
-                cp.setDescribe("image description");
-                casePictureMapper.insertPicture(cp);
-            }
-            else{
-                CaseVideo cv = new CaseVideo();
-                cv.setCase_id(id);
-                cv.setProcedure(procedure);
-                cv.setUrl(tmp.get(i));
-                cv.setDescribe("video description");
-                caseVideoMapper.insertVideo(cv);
-            }
-
-        }
-    }
-
-    private CaseVO getCaseVO(Case newcase, CaseParam caseParam){
+    private CaseVO getCaseVO(Case newcase, CaseParam caseParam) {
         CaseVO caseVO = new CaseVO();
 
         caseVO.setId(newcase.getId());
         caseVO.setName(newcase.getName());
         caseVO.setDisease_id(newcase.getDisease_id());
 
+        List<ImageVideoParam> cImage = new ArrayList<>();
+        List<ImageVideoParam> dImage = new ArrayList<>();
+        List<ImageVideoParam> eImage = new ArrayList<>();
+        List<ImageVideoParam> tImage = new ArrayList<>();
+        List<ImageVideoParam> cVideo = new ArrayList<>();
+        List<ImageVideoParam> dVideo = new ArrayList<>();
+        List<ImageVideoParam> eVideo = new ArrayList<>();
+        List<ImageVideoParam> tVideo = new ArrayList<>();
+
+        for (int i = 0; i < caseParam.getImage().size(); i++) {
+            String procedure = caseParam.getImageProcedure().get(i);
+            String image = caseParam.getImage().get(i);
+            String descirption = caseParam.getImageDescription().get(i);
+
+            if (procedure.equals(ProcedureType.consultation)) {
+                cImage.add(new ImageVideoParam(image, descirption));
+            } else if (procedure.equals(ProcedureType.diagnosis)) {
+                dImage.add(new ImageVideoParam(image, descirption));
+            } else if (procedure.equals(ProcedureType.examination)) {
+                eImage.add(new ImageVideoParam(image, descirption));
+            } else {
+                tImage.add(new ImageVideoParam(image, descirption));
+            }
+        }
+
+        for (int i = 0; i < caseParam.getVideoDescription().size(); i++) {
+            String procedure = caseParam.getVideoProcedure().get(i);
+            String video = caseParam.getVideo().get(i);
+            String descirption = caseParam.getVideoDescription().get(i);
+
+            if (procedure.equals(ProcedureType.consultation)) {
+                cVideo.add(new ImageVideoParam(video, descirption));
+            } else if (procedure.equals(ProcedureType.diagnosis)) {
+                dVideo.add(new ImageVideoParam(video, descirption));
+            } else if (procedure.equals(ProcedureType.examination)) {
+                eVideo.add(new ImageVideoParam(video, descirption));
+            } else {
+                tVideo.add(new ImageVideoParam(video, descirption));
+            }
+        }
+
         ProcedureVO procedureVO = new ProcedureVO();
         procedureVO.setProcedureName(ProcedureType.consultation);
         procedureVO.setDescribe(newcase.getConsultation());
-        procedureVO.setImages(caseParam.getCImage());
-        procedureVO.setVideos(caseParam.getCVideo());
+        procedureVO.setImages(cImage);
+        procedureVO.setVideos(cVideo);
 
         caseVO.getProcedureVOS().add(procedureVO);
 
         ProcedureVO procedureVO1 = new ProcedureVO();
         procedureVO1.setProcedureName(ProcedureType.examination);
         procedureVO1.setDescribe(newcase.getExamination());
-        procedureVO1.setImages(caseParam.getEImage());
-        procedureVO1.setVideos(caseParam.getEVideo());
+        procedureVO1.setImages(eImage);
+        procedureVO1.setVideos(eVideo);
 
         caseVO.getProcedureVOS().add(procedureVO1);
 
         ProcedureVO procedureVO2 = new ProcedureVO();
         procedureVO2.setProcedureName(ProcedureType.diagnosis);
         procedureVO2.setDescribe(newcase.getDiagnosis());
-        procedureVO2.setImages(caseParam.getDImage());
-        procedureVO2.setVideos(caseParam.getDVideo());
+        procedureVO2.setImages(dImage);
+        procedureVO2.setVideos(dVideo);
 
         caseVO.getProcedureVOS().add(procedureVO2);
 
         ProcedureVO procedureVO3 = new ProcedureVO();
         procedureVO3.setProcedureName(ProcedureType.treatment);
         procedureVO3.setDescribe(newcase.getTreatment());
-        procedureVO3.setImages(caseParam.getTImage());
-        procedureVO3.setVideos(caseParam.getTVideo());
+        procedureVO3.setImages(tImage);
+        procedureVO3.setVideos(tVideo);
 
         caseVO.getProcedureVOS().add(procedureVO3);
 
         return caseVO;
     }
+
+    private void insertPicOrVid(List<String> tmp, Integer id, List<String> procedure, List<String> description, String type) {
+        for (int i = 0; i < tmp.size(); i++) {
+            if (type.equals(FileType.Image)) {
+                CasePicture cp = new CasePicture();
+                cp.setCase_id(id);
+                cp.setProcedure(procedure.get(i));
+                cp.setUrl(tmp.get(i));
+                cp.setDescribe(description.get(i));
+                casePictureMapper.insertPicture(cp);
+            } else {
+                CaseVideo cv = new CaseVideo();
+                cv.setCase_id(id);
+                cv.setProcedure(procedure.get(i));
+                cv.setUrl(tmp.get(i));
+                cv.setDescribe(description.get(i));
+                caseVideoMapper.insertVideo(cv);
+            }
+
+        }
+    }
+
     @Override
     public Integer updateCase(Case newcase) {
         return caseMapper.updateByPrimaryKey(newcase);
@@ -149,7 +172,7 @@ public class CaseServiceImpl implements CaseService {
     public CaseVO getCaseById(Integer id) {
         CaseVO caseVO = new CaseVO();
         Case aCase = caseMapper.selectByPrimaryKey(id);
-        BeanUtils.copyProperties(aCase,caseVO);
+        BeanUtils.copyProperties(aCase, caseVO);
 
 
         List<CasePicture> imageList = casePictureMapper.getPicturesByCaseId(id);
@@ -162,32 +185,32 @@ public class CaseServiceImpl implements CaseService {
         for(int i=0; i<imageList.size(); i++){
             CasePicture tmp = imageList.get(i);
             if(tmp.getProcedure().equals(ProcedureType.consultation)) {
-                cpvo.getImages().add(tmp.getUrl());
+                cpvo.getImages().add(new ImageVideoParam(tmp.getUrl(),tmp.getDescribe()));
             }
             else if(tmp.getProcedure().equals(ProcedureType.diagnosis)){
-                dpvo.getImages().add(tmp.getUrl());
+                dpvo.getImages().add(new ImageVideoParam(tmp.getUrl(),tmp.getDescribe()));
             }
             else if(tmp.getProcedure().equals(ProcedureType.examination)){
-                epvo.getImages().add(tmp.getUrl());
+                epvo.getImages().add(new ImageVideoParam(tmp.getUrl(),tmp.getDescribe()));
             }
             else {
-                tpvo.getImages().add(tmp.getUrl());
+                tpvo.getImages().add(new ImageVideoParam(tmp.getUrl(),tmp.getDescribe()));
             }
 
         }
         for(int i=0; i<videoList.size(); i++){
             CaseVideo tmp = videoList.get(i);
             if(tmp.getProcedure().equals(ProcedureType.consultation)) {
-                cpvo.getVideos().add(tmp.getUrl());
+                cpvo.getVideos().add(new ImageVideoParam(tmp.getUrl(),tmp.getDescribe()));
             }
             else if(tmp.getProcedure().equals(ProcedureType.diagnosis)){
-                dpvo.getVideos().add(tmp.getUrl());
+                dpvo.getVideos().add(new ImageVideoParam(tmp.getUrl(),tmp.getDescribe()));
             }
             else if(tmp.getProcedure().equals(ProcedureType.examination)){
-                epvo.getVideos().add(tmp.getUrl());
+                epvo.getVideos().add(new ImageVideoParam(tmp.getUrl(),tmp.getDescribe()));
             }
             else {
-                tpvo.getVideos().add(tmp.getUrl());
+                tpvo.getVideos().add(new ImageVideoParam(tmp.getUrl(),tmp.getDescribe()));
             }
 
         }

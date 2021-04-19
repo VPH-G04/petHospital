@@ -28,15 +28,10 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
 
 swagger:
   enabled: true
-
-mybatis:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case=true:
-  mapper-locations: classpath:mapper/*.xml
 
 
 #用户上传文件存储路径

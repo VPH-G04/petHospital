@@ -5,14 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class CaseListParam {
+@AllArgsConstructor
+public class ImageVideoParam {
 
-    Integer id;
+    String url;
 
-    Integer diseaseId;
-
-    String name;
-
+    String description;
 }

@@ -35,24 +35,17 @@ public class CaseController {
     public Result<?> createCase(@ModelAttribute CaseCreateParam caseCreateParam, HttpServletRequest request){
 
         CaseParam caseParam = new CaseParam();
+        if(caseCreateParam.getImage()!=null) {
+            caseParam.setImage(saveFile(caseCreateParam.getImage(), request, FileType.Image));
+            caseParam.setImageDescription(caseCreateParam.getImageDescription());
+            caseParam.setImageProcedure(caseCreateParam.getImageProcedure());
+        }
 
-        if(caseCreateParam.getCImage()!=null)
-        caseParam.setCImage(saveFile(caseCreateParam.getCImage(),request, FileType.Image));
-        if(caseCreateParam.getDImage()!=null)
-        caseParam.setDImage(saveFile(caseCreateParam.getDImage(),request, FileType.Image));
-        if(caseCreateParam.getEImage()!=null)
-        caseParam.setEImage(saveFile(caseCreateParam.getEImage(),request, FileType.Image));
-        if(caseCreateParam.getTImage()!=null)
-        caseParam.setTImage(saveFile(caseCreateParam.getTImage(),request, FileType.Image));
-
-        if(caseCreateParam.getCVideo()!=null)
-            caseParam.setCVideo(saveFile(caseCreateParam.getCVideo(),request, FileType.Video));
-        if(caseCreateParam.getDVideo()!=null)
-            caseParam.setDVideo(saveFile(caseCreateParam.getDVideo(),request, FileType.Video));
-        if(caseCreateParam.getEVideo()!=null)
-            caseParam.setEVideo(saveFile(caseCreateParam.getEVideo(),request, FileType.Video));
-        if(caseCreateParam.getTVideo()!=null)
-            caseParam.setTVideo(saveFile(caseCreateParam.getTVideo(),request, FileType.Video));
+        if(caseCreateParam.getVideo()!=null) {
+            caseParam.setVideo(saveFile(caseCreateParam.getVideo(), request, FileType.Video));
+            caseParam.setVideoDescription(caseCreateParam.getVideoDescription());
+            caseParam.setVideoProcedure(caseCreateParam.getVideoProcedure());
+        }
 
         Case newCase = new Case();
         BeanUtils.copyProperties(caseCreateParam,newCase);
@@ -94,14 +87,6 @@ public class CaseController {
     public Result<?> getCaseById(@RequestParam Integer id){
         return CommonResult.success().data(caseService.getCaseById(id));
     }
-
-//
-//    @PostMapping("/update")
-//    public Result<?> upateCase(@SessionAttribute UserSessionInfo userSessionInfo,
-//                               @RequestBody Case caseParam){
-//
-//
-//    }
 
 
 }

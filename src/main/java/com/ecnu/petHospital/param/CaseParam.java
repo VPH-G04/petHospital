@@ -1,6 +1,7 @@
 package com.ecnu.petHospital.param;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,22 +11,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class CaseParam {
 
+    List<String> image;
 
-    List<String> cImage;
+    List<String> video;
 
-    List<String> eImage;
+    List<String> imageDescription;
 
-    List<String> dImage;
+    List<String> imageProcedure;
 
-    List<String> tImage;
+    List<String> videoDescription;
 
-    List<String> cVideo;
-
-    List<String> dVideo;
-
-    List<String> eVideo;
-
-    List<String> tVideo;
+    List<String> videoProcedure;
 }
