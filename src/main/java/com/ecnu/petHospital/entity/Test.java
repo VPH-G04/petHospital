@@ -29,4 +29,6 @@ public class Test {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime end;
+
+    private Integer duration;
 }

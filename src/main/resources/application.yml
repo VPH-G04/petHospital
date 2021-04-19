@@ -1,5 +1,11 @@
 server:
   port: 8888
+  servlet:
+    session:
+      timeout: 10000
+      cookie:
+        name: SESSION
+#        domain: localhost
 
 spring:
   datasource:

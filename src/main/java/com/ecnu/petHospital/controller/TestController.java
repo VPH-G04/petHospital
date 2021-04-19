@@ -6,6 +6,7 @@ import com.ecnu.petHospital.param.TestParam;
 import com.ecnu.petHospital.result.CommonResult;
 import com.ecnu.petHospital.result.Result;
 import com.ecnu.petHospital.service.TestService;
+import com.ecnu.petHospital.session.UserSessionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,13 +37,17 @@ public class TestController {
     }
 
     @PostMapping("/getTest")
-    public Result<?> getTest(@RequestParam Integer testId){
+    public Result<?> getTest(@SessionAttribute UserSessionInfo userSessionInfo, @RequestParam Integer testId){
 
-        return CommonResult.success().data(testService.getTest(testId));
+        if(userSessionInfo == null) {
+            return CommonResult.accessDenied();
+        }
+        return CommonResult.success().data(testService.getTest(testId, userSessionInfo.getId()));
     }
 
     @PostMapping("/doTest")
-    public Result<?> doTest(@RequestBody AnswerSheet answerSheet){
+    public Result<?> doTest(@SessionAttribute UserSessionInfo userSessionInfo, @RequestBody AnswerSheet answerSheet){
+        answerSheet.setUserId(userSessionInfo.getId());
         testService.doTest(answerSheet);
         return CommonResult.success();
     }
