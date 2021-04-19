@@ -7,7 +7,10 @@ import com.ecnu.petHospital.entity.TestLog;
 import com.ecnu.petHospital.param.AnswerSheet;
 import com.ecnu.petHospital.param.PageParam;
 import com.ecnu.petHospital.param.TestParam;
+import com.ecnu.petHospital.service.TestPaperService;
 import com.ecnu.petHospital.service.TestService;
+import com.ecnu.petHospital.vo.PaperVO;
+import com.ecnu.petHospital.vo.TestVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,8 @@ public class TestServiceImpl implements TestService {
     private TestMapper testMapper;
     @Autowired
     private TestLogMapper testLogMapper;
-
+    @Autowired
+    private TestPaperService testPaperService;
 
 
     @Override
@@ -47,7 +51,8 @@ public class TestServiceImpl implements TestService {
                 .setName(testParam.getName())
                 .setPaperId(testParam.getPaperId())
                 .setStart(startTime)
-                .setEnd(endTime);
+                .setEnd(endTime)
+                .setDuration(testParam.getDuration());
         testMapper.insert(test);
         return true;
     }
@@ -61,9 +66,20 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public Test getTest(Integer id) {
+    public TestVO getTest(Integer testId,Integer userId) {
 
-        return testMapper.selectByPrimaryKey(id);
+        Test test = testMapper.selectByPrimaryKey(testId);
+        PaperVO paperVO = testPaperService.getTestPaper(test.getPaperId());
+        TestLog testLog = testLogMapper.selectOne(new TestLog().setUserId(userId).setTestId(testId));
+        TestVO testVO = new TestVO(test, paperVO);
+        if(testLog == null) {
+            testVO.setMarked(false);
+        }
+        else {
+            testVO.setMarked(true);
+            testVO.setUserScore(testLog.getScore()).setSubmitTime(testLog.getSubmitTime());
+        }
+        return testVO;
     }
 
     @Override

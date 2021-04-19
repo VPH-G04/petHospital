@@ -16,6 +16,13 @@ public interface UserService {
     //登陆
     User login(LoginParam loginParam);
 
+    //更新用户信息
+    Boolean updateInfo(UserVO userVO);
+
+    //获取所有用户
+    PageInfo<User> getUserList(PageParam pageParam);
+
+
     //根据用户名获取用户
     UserVO getUserByUsername(String username);
 
@@ -28,25 +35,10 @@ public interface UserService {
     //更新用户密码
     int updatePassword(UserSessionInfo userSessionInfo, String oldPassword, String newPassword);
 
-    //更新用户名
-    int updateUsername(Integer id, String username);
-
-    //更新用户电话
-    int updateTelephone(Integer id, String telephone);
-
-    //更新用户邮箱
-    int updateEmail(Integer id, String email);
-
-    //更改权限
-    int updatePermission(Integer id, Integer admin);
-
-    //获取所有用户
-    PageInfo<User> getUserList(PageParam pageParam);
-
     //删除用户
     int deleteUserById(Integer id);
 
-    //获取用户数
-    int getCountOfUser();
+    //更新用户信息
+    Boolean adminUpdateInfo(User user);
 
 }

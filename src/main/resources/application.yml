@@ -1,5 +1,11 @@
 server:
   port: 8888
+  servlet:
+    session:
+      timeout: 10000
+      cookie:
+        name: SESSION
+#        domain: localhost
 
 spring:
   datasource:
@@ -24,14 +30,14 @@ spring:
       max-file-size: 500MB
       max-request-size: 1000MB
 
+swagger:
+  enabled: true
+
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
-
-swagger:
-  enabled: true
 
 
 #用户上传文件存储路径

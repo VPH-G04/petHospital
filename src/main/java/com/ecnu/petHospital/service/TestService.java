@@ -5,6 +5,7 @@ import com.ecnu.petHospital.entity.TestLog;
 import com.ecnu.petHospital.param.AnswerSheet;
 import com.ecnu.petHospital.param.PageParam;
 import com.ecnu.petHospital.param.TestParam;
+import com.ecnu.petHospital.vo.TestVO;
 import com.github.pagehelper.PageInfo;
 
 
@@ -16,7 +17,7 @@ public interface TestService {
 
     boolean deleteTest(Integer id);
 
-    Test getTest(Integer id);
+    TestVO getTest(Integer testId, Integer userId);
 
     boolean doTest(AnswerSheet answerSheet);
 

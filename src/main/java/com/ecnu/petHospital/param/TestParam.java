@@ -16,4 +16,6 @@ public class TestParam {
     private String startTime;
 
     private String endTime;
+
+    private Integer duration;
 }
