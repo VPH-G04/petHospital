@@ -13,6 +13,8 @@ public interface DiseaseService {
 
     List<Disease> getDiseaseByClassId(Integer diseaseClassId);
 
+    List<Disease> getAllDiseases();
+
     Integer createDiseaseClass(String diseaseClassName);
 
     Integer createDisease(Disease disease);

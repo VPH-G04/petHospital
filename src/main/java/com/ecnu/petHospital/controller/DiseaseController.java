@@ -39,6 +39,11 @@ public class DiseaseController {
         return CommonResult.success().data(diseaseService.getDiseaseByClassId(diseaseClassId));
     }
 
+    @PostMapping("/getAll")
+    public Result<?> getAllDiseases(){
+        return CommonResult.success().data(diseaseService.getAllDiseases());
+    }
+
     @PostMapping("/deleteClass")
     public Result<?> deleteClassById(@RequestParam Integer id){
         diseaseService.deleteDiseaseClassById(id);

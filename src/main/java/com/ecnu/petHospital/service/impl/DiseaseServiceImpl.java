@@ -31,6 +31,11 @@ public class DiseaseServiceImpl implements DiseaseService {
     }
 
     @Override
+    public List<Disease> getAllDiseases() {
+        return diseaseMapper.selectAll();
+    }
+
+    @Override
     public Integer createDiseaseClass(String diseaseClassName) {
         DiseaseClassification diseaseClassification = new DiseaseClassification();
         diseaseClassification.setName(diseaseClassName);
