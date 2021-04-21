@@ -4,6 +4,7 @@ import com.ecnu.petHospital.entity.Case;
 import com.ecnu.petHospital.enums.FileType;
 import com.ecnu.petHospital.param.CaseCreateParam;
 import com.ecnu.petHospital.param.CaseParam;
+import com.ecnu.petHospital.param.PageParam;
 import com.ecnu.petHospital.result.CommonResult;
 import com.ecnu.petHospital.result.Result;
 import com.ecnu.petHospital.service.CaseService;
@@ -16,12 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Api("病例管理")
@@ -79,8 +77,10 @@ public class CaseController {
     }
 
     @PostMapping("/getcases")
-    public Result<?> getCaseList(@RequestParam Integer diseaseId){
-        return CommonResult.success().data(caseService.getCasesByDiseaseId(diseaseId));
+    public Result<?> getCaseList(@RequestParam Integer diseaseId,
+                                 @RequestBody PageParam pageParam){
+
+        return CommonResult.success().data(caseService.getCasesByDiseaseId(diseaseId, pageParam));
     }
 
     @PostMapping("/get")

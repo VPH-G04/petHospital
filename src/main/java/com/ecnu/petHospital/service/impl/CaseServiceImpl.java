@@ -12,6 +12,8 @@ import com.ecnu.petHospital.param.*;
 import com.ecnu.petHospital.service.CaseService;
 import com.ecnu.petHospital.vo.CaseVO;
 import com.ecnu.petHospital.vo.ProcedureVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -164,6 +166,7 @@ public class CaseServiceImpl implements CaseService {
 
 
         casePictureMapper.deletePictureByCaseId(id);
+        caseVideoMapper.deleteVideoByCaseId(id);
 
         return caseMapper.deleteByPrimaryKey(id);
     }
@@ -232,9 +235,12 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public List<CaseListParam> getCasesByDiseaseId(Integer diseaseId) {
-        return caseMapper.getCasesByDisId(diseaseId);
+    public PageInfo<CaseListParam> getCasesByDiseaseId(Integer diseaseId, PageParam pageParam) {
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+        List<CaseListParam> casesByDisId = caseMapper.getCasesByDisId(diseaseId);
+        return new PageInfo<>(casesByDisId);
     }
+
 
     @Override
     public List<Case> getCases() {
