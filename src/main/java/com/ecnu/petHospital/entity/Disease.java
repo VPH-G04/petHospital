@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Data
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Disease {
     @Id
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     private String name;
