@@ -6,9 +6,13 @@ import com.ecnu.petHospital.param.PaperParam;
 import com.ecnu.petHospital.vo.PaperVO;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 public interface TestPaperService {
 
     PageInfo<TestPaper> getTestPaperList(PageParam pageParam);
+
+    List<TestPaper> getAllPaper();
 
     boolean createTestPaper(PaperParam paperParam);
 
