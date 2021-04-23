@@ -43,7 +43,7 @@ public class TestServiceImpl implements TestService {
     @Transactional
     public boolean createTest(TestParam testParam) {
 
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime startTime = LocalDateTime.parse(testParam.getStartTime(), df);
         LocalDateTime endTime = LocalDateTime.parse(testParam.getEndTime(), df);
 
@@ -83,6 +83,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    @Transactional
     public boolean doTest(AnswerSheet answerSheet) {
 
         TestLog testLog = new TestLog()
@@ -99,6 +100,20 @@ public class TestServiceImpl implements TestService {
     public TestLog getTestLog(Integer testId, Integer userId) {
         TestLog testLog = new TestLog().setTestId(testId).setUserId(userId);
         return testLogMapper.selectOne(testLog);
+    }
+
+    @Override
+    public PageInfo<TestLog> getTestLogList(Integer testId, PageParam pageParam) {
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+        List<TestLog> testLogList = testLogMapper.select(new TestLog().setTestId(testId));
+        return new PageInfo<>(testLogList);
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteTestLog(Integer id) {
+        testLogMapper.deleteByPrimaryKey(id);
+        return true;
     }
 
 }

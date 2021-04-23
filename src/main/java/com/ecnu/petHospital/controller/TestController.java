@@ -57,4 +57,17 @@ public class TestController {
 
         return CommonResult.success().data(testService.getTestLog(testId, userId));
     }
+
+    @PostMapping("/getTestLogList")
+    public Result<?> getTestLogList(@RequestParam Integer testId, @RequestBody PageParam pageParam){
+
+        return CommonResult.success().data(testService.getTestLogList(testId, pageParam));
+    }
+
+    @PostMapping("/deleteTestLog")
+    public Result<?> deleteTestLog(@RequestParam Integer id){
+        testService.deleteTestLog(id);
+        return CommonResult.success();
+    }
+
 }
