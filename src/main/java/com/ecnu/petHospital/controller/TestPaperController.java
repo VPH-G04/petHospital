@@ -22,6 +22,12 @@ public class TestPaperController {
         return CommonResult.success().data(testPaperService.getTestPaperList(pageParam));
     }
 
+    @PostMapping("/getAllPaper")
+    public Result<?> getAllPaper(){
+
+        return CommonResult.success().data(testPaperService.getAllPaper());
+    }
+
     @PostMapping("/createPaper")
     public Result<?> createTestPaper(@RequestBody PaperParam paperParam){
         testPaperService.createTestPaper(paperParam);

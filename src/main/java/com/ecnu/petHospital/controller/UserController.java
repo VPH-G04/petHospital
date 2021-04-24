@@ -86,8 +86,7 @@ public class UserController {
 
    //ok
     @PostMapping("get")
-    public Result<?> getUserById(@SessionAttribute UserSessionInfo userSessionInfo,
-                                 @RequestParam Integer id){
+    public Result<?> getUserById(@RequestParam Integer id){
         return CommonResult.success().data(userService.getUserById(id));
     }
 

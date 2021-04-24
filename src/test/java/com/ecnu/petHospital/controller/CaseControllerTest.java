@@ -49,9 +49,6 @@ class CaseControllerTest {
     @MockBean
     private CaseService caseService;
 
-    @InjectMocks
-    CaseController caseController;
-
     @Test
     @DisplayName("成功创建病例并返回成功")
     void when_request_to_create_new_case_then_dispatch_to_service_and_return_success_result() throws Exception{

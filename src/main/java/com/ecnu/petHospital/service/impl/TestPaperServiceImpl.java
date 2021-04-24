@@ -36,11 +36,18 @@ public class TestPaperServiceImpl implements TestPaperService {
     }
 
     @Override
+    public List<TestPaper> getAllPaper() {
+
+        return testPaperMapper.selectAll();
+    }
+
+    @Override
     @Transactional
     public boolean createTestPaper(PaperParam paperParam) {
 
         TestPaper testPaper = new TestPaper().setName(paperParam.getName()).setScore(paperParam.getScore());
-        int paperId = testPaperMapper.insert(testPaper);
+        testPaperMapper.insertUseGeneratedKeys(testPaper);
+        int paperId = testPaper.getId();
         int i = 1;
         for (Integer questionId : paperParam.getQuestionList()) {
             TestQuestion testQuestion = new TestQuestion()

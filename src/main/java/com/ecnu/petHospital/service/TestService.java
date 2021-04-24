@@ -22,4 +22,8 @@ public interface TestService {
     boolean doTest(AnswerSheet answerSheet);
 
     TestLog getTestLog(Integer testId, Integer userId);
+
+    PageInfo<TestLog> getTestLogList(Integer testId, PageParam pageParam);
+
+    boolean deleteTestLog(Integer id);
 }
