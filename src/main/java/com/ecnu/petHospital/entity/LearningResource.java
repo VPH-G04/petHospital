@@ -3,7 +3,9 @@ package com.ecnu.petHospital.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,8 +13,10 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="learning_resource")
+@Accessors(chain = true)
 public class LearningResource {
     @Id
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     private Integer roleId;
