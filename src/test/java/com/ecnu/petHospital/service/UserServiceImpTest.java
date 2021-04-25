@@ -47,4 +47,19 @@ class UserServiceImpTest {
         verify(userMapper,times(1)).selectOne(new User().setEmail(loginParam.getEmail()).setPassword(loginParam.getPassword()));
     }
 
+    @Test
+    @DisplayName("用户更新信息")
+    void user_update_info(){
+        User user = new User(1,"lionel","123","email",true);
+
+        when(userMapper.selectByPrimaryKey(1)).thenReturn(user);
+        when(userMapper.selectOne(new User().setEmail(user.getEmail()))).thenReturn(null);
+
+        userService.updateInfo(new UserVO(user.getId(),user.getUsername(),user.getEmail()));
+
+        verify(userMapper,times(1)).selectByPrimaryKey(1);
+        verify(userMapper,times(1)).selectOne(new User().setEmail(user.getEmail()));
+        verify(userMapper,times(1)).updateByPrimaryKeySelective(user);
+    }
+
 }

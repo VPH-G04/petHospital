@@ -52,7 +52,7 @@ public class    UserServiceImp implements UserService {
 
         User emailUser=userMapper.selectOne(new User().setEmail(userVO.getEmail()));
         System.out.println(emailUser);
-        if(emailUser!=user)
+        if(emailUser!=user && emailUser!=null)
             throw new CustomException(CustomExceptionType.EMAIL_ALREADY_EXISTS);
 
         user.setEmail(userVO.getEmail()).setUsername(userVO.getUsername());
