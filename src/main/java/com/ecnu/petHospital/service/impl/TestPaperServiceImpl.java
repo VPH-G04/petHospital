@@ -26,8 +26,6 @@ public class TestPaperServiceImpl implements TestPaperService {
     @Autowired
     private TestQuestionMapper testQuestionMapper;
 
-
-
     @Override
     public PageInfo<TestPaper> getTestPaperList(PageParam pageParam) {
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), "id desc");
