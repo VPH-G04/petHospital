@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 @Configuration
@@ -47,7 +48,7 @@ public class FileUtil {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 String fileAdd = sdf.format(new Date());
-                File dir = new File(fileSavePath + "/" + type + fileAdd);
+                File dir = new File(fileSavePath + "/" + getPath(type) + "/" + fileAdd);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
@@ -60,5 +61,12 @@ public class FileUtil {
             }
         }
         return returnUrl;
+    }
+    public static String getPath(String type){
+        if(type.equals(FileType.Image))
+            return "images";
+        else
+            return "videos";
+
     }
 }
