@@ -107,6 +107,7 @@ public class LoginControllerTest {
     }
 
     @Test
+    @DisplayName("成功登出")
     void when_request_to_logout_then_return_success() throws Exception {
         MockHttpSession session = new MockHttpSession();
         UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lionel","email",false);

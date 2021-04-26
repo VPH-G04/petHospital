@@ -1,6 +1,7 @@
 package com.ecnu.petHospital.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name="learning_resource")
 @Accessors(chain = true)
 public class LearningResource {

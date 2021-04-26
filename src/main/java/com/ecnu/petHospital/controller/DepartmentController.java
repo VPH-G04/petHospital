@@ -31,7 +31,7 @@ public class DepartmentController {
     @ApiOperation(value = "新建科室", notes = "不需要科室id")
     @ApiImplicitParams({
     })
-    public Result<?> add(Department department) {
+    public Result<?> add(@RequestBody Department department) {
 
         return CommonResult.success().data(departmentService.addDepartment(department));
     }
@@ -50,7 +50,7 @@ public class DepartmentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "department", value = "科室信息", required = true)
     })
-    public Result<?> mod(Department department) {
+    public Result<?> mod(@RequestBody Department department) {
         return CommonResult.success().data(departmentService.modDepartment(department));
     }
 

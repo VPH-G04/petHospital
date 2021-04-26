@@ -25,7 +25,7 @@ public class LearningController {
     @Resource
     private RoleService roleService;
 
-    private List<String> saveFile(List<MultipartFile> upfiles, HttpServletRequest request, String type){
+    public List<String> saveFile(List<MultipartFile> upfiles, HttpServletRequest request, String type){
         List<String> urls = new ArrayList<>();
         for(int i=0; i<upfiles.size();i++){
             System.out.println(i);
@@ -76,10 +76,9 @@ public class LearningController {
     }
 
     @PutMapping("update")
-    public Result<?> update(LearningResource learningResource){
+    public Result<?> update(@RequestBody LearningResource learningResource){
         roleService.updateResource(learningResource);
         return CommonResult.success();
     }
-
 
 }
