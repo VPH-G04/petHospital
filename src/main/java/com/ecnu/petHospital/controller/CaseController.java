@@ -3,6 +3,7 @@ package com.ecnu.petHospital.controller;
 import com.ecnu.petHospital.entity.Case;
 import com.ecnu.petHospital.enums.FileType;
 import com.ecnu.petHospital.param.CaseCreateParam;
+import com.ecnu.petHospital.param.CaseCreateParam2;
 import com.ecnu.petHospital.param.CaseParam;
 import com.ecnu.petHospital.param.PageParam;
 import com.ecnu.petHospital.result.CommonResult;
@@ -86,6 +87,44 @@ public class CaseController {
     @PostMapping("/get")
     public Result<?> getCaseById(@RequestParam Integer id){
         return CommonResult.success().data(caseService.getCaseById(id));
+    }
+
+    @PostMapping("/upload")
+    public Result<?> upload(@RequestParam("file") MultipartFile file,
+                            HttpServletRequest request){
+        String url;
+        try{
+            url = FileUtil.saveFile(file, request, "Image");
+            System.out.println(url);
+        }catch (Exception e){
+            System.out.println(e);
+            url = "上传失败";
+
+        }
+        return CommonResult.success().data(url);
+    }
+
+    @PostMapping("/create2")
+    public Result<?> createCase2(@ModelAttribute CaseCreateParam2 caseCreateParam, HttpServletRequest request){
+
+        CaseParam caseParam = new CaseParam();
+        if(caseCreateParam.getImage()!=null) {
+            caseParam.setImage(caseCreateParam.getImage());
+            caseParam.setImageDescription(caseCreateParam.getImageDescription());
+            caseParam.setImageProcedure(caseCreateParam.getImageProcedure());
+        }
+
+        if(caseCreateParam.getVideo()!=null) {
+            caseParam.setVideo(caseCreateParam.getVideo());
+            caseParam.setVideoDescription(caseCreateParam.getVideoDescription());
+            caseParam.setVideoProcedure(caseCreateParam.getVideoProcedure());
+        }
+
+        Case newCase = new Case();
+        BeanUtils.copyProperties(caseCreateParam,newCase);
+
+        CaseVO caseVO = caseService.createCase(newCase, caseParam);
+        return  CommonResult.success().data(caseVO);
     }
 
 

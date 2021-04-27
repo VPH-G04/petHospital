@@ -11,6 +11,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDateTime;
+
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
@@ -29,7 +31,7 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("petHospital API Documentation")
-                .description("软件开发实践项目接口文档 test1")
+                .description("软件开发实践项目接口文档 test1" + LocalDateTime.now())
                 //.termsOfServiceUrl("http://localhost:8080/swagger-ui.html")//数据源
                 .version("1.0")
                 .build();
