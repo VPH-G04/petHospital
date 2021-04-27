@@ -23,7 +23,7 @@ public class DepartmentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "departmentId", value = "科室id", required = true)
     })
-    public Result<?> get(int departmentId) {
+    public Result<?> get(Integer departmentId) {
         return CommonResult.success().data(departmentService.getOne(departmentId));
     }
 
@@ -36,16 +36,16 @@ public class DepartmentController {
         return CommonResult.success().data(departmentService.addDepartment(department));
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     @ApiOperation(value = "删除科室")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "departmentId", value = "科室id", required = true)
     })
-    public Result<?> del(int departmentId) {
+    public Result<?> del(Integer departmentId) {
         return CommonResult.success().data(departmentService.delete(departmentId));
     }
 
-    @PutMapping("/mod")
+    @PostMapping("/mod")
     @ApiOperation(value = "修改科室")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "department", value = "科室信息", required = true)
