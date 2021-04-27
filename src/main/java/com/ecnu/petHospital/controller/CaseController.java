@@ -90,8 +90,7 @@ public class CaseController {
     }
 
     @PostMapping("/upload")
-    public Result<?> upload(@RequestParam("file") MultipartFile file,
-                            HttpServletRequest request){
+    public Result<?> upload(MultipartFile file, HttpServletRequest request){
         String url;
         try{
             url = FileUtil.saveFile(file, request, "Image");
