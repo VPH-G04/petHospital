@@ -68,7 +68,8 @@ public class CaseServiceImpl implements CaseService {
         List<ImageVideoParam> eVideo = new ArrayList<>();
         List<ImageVideoParam> tVideo = new ArrayList<>();
 
-        for (int i = 0; i < caseParam.getImage().size(); i++) {
+        if(caseParam.getImage() != null)
+            for (int i = 0; i < caseParam.getImage().size(); i++) {
             String procedure = caseParam.getImageProcedure().get(i);
             String image = caseParam.getImage().get(i);
             String descirption = caseParam.getImageDescription().get(i);
@@ -84,7 +85,8 @@ public class CaseServiceImpl implements CaseService {
             }
         }
 
-        for (int i = 0; i < caseParam.getVideoDescription().size(); i++) {
+        if(caseParam.getVideo() != null)
+            for (int i = 0; i < caseParam.getVideoDescription().size(); i++) {
             String procedure = caseParam.getVideoProcedure().get(i);
             String video = caseParam.getVideo().get(i);
             String descirption = caseParam.getVideoDescription().get(i);
