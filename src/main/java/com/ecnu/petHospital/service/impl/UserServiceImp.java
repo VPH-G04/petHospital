@@ -116,6 +116,7 @@ public class    UserServiceImp implements UserService {
     @Transactional
     public Boolean adminUpdateInfo(User user) {
         User user1 = userMapper.selectByPrimaryKey(user.getId());
+        System.out.println(user1);
         Optional.ofNullable(user1).orElseThrow(()->new CustomException(CustomExceptionType.USER_NOT_EXISTS));
         System.out.println("user:"+user);
         System.out.println("user1:"+user1);
@@ -123,9 +124,9 @@ public class    UserServiceImp implements UserService {
 
         User emailUser=userMapper.selectOne(new User().setEmail(user.getEmail()));
         System.out.println("emailUser:"+emailUser);
-        if(!emailUser.getId().equals(user1.getId()))
-            throw new CustomException(CustomExceptionType.EMAIL_ALREADY_EXISTS);
 
+        if(emailUser!= null && !emailUser.getId().equals(user1.getId()))
+            throw new CustomException(CustomExceptionType.EMAIL_ALREADY_EXISTS);
         user1.setEmail(user.getEmail()).setUsername(user.getUsername()).setPassword(user.getPassword());
         userMapper.updateByPrimaryKeySelective(user);
         return true;
