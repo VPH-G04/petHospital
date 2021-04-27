@@ -49,9 +49,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "管理员获取用户列表", response = Result.class)
-    @GetMapping("list")
+    @PostMapping("list")
     public Result<?> getUerList(@SessionAttribute UserSessionInfo userSessionInfo,
-                                PageParam pageParam){
+                                @RequestBody PageParam pageParam){
 
         if(!userSessionInfo.getAdmin()){
             return CommonResult.accessDenied();
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "管理员删除用户", response = Result.class)
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public Result<?> deleteUser(@SessionAttribute UserSessionInfo userSessionInfo,
                                 @RequestParam Integer userId){
         if(!userSessionInfo.getAdmin()){
@@ -72,9 +72,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "管理员更新用户信息", response = Result.class)
-    @PutMapping("adminUpdateUser")
+    @PostMapping("adminUpdateUser")
     public Result<?> updateUser(@SessionAttribute UserSessionInfo userSessionInfo,
-                                User user){
+                                @RequestBody User user){
         System.out.println(user);
         if(!userSessionInfo.getAdmin()){
             return CommonResult.accessDenied();
